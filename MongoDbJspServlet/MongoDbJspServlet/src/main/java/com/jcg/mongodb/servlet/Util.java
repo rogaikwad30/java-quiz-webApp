@@ -122,6 +122,7 @@ public class Util {
 	      String[] A = new String [list.size()];
 	      String[] B = new String [list.size()];
 	      String[] C = new String [list.size()];
+	      String[] ids = new String [list.size()];
 	      for(int k=0; k<list.size();k++ ) {
 	    	   
 	    	  ObjectId id = list.get(k); 
@@ -140,6 +141,7 @@ public class Util {
 		      A[k] = (String) doc.get("oA");
 		      B[k] = (String) doc.get("oB");
 		      C[k] = (String) doc.get("oC");
+		      ids[k] =  doc.get("_id").toString();
 		     
 	      }
 	      HashMap<String, String[]> Data = new HashMap<String, String[]>();
@@ -148,6 +150,7 @@ public class Util {
 	      Data.put("OptionA", A);
 	      Data.put("OptionB", B);
 	      Data.put("OptionC", C);
+	      Data.put("ids", ids);
 	      return Data;
 	} 
 	
@@ -272,5 +275,39 @@ public class Util {
 		db.getCollection("final").updateOne(eq("_id", i), new Document("$push", new Document("students", temp2))); 
 		return ;
 	}
+	
+	public static void deleteQues (ObjectId testid , ObjectId quesid) {
+		String db_name = "test";
+		MongoDatabase db = getConnection().getDatabase(db_name);
+		
+
+		db.getCollection("final").updateOne(eq("_id", testid), new Document("$pull", new Document("quizzes", quesid) ) );
+		
+	}
+	
+	 
+	
+	
+	public static void getStudents (String id) {
+		String db_name = "test";
+		MongoDatabase db = getConnection().getDatabase(db_name); 
+		
+		ObjectId t = new ObjectId("60b3c38a5a3b8a478cf5753f");
+		FindIterable<Document> obj = db.getCollection("final").find(eq("_id", t));
+		 
+		 ArrayList<Document> a = new ArrayList();
+		 Object arr = new Document();
+	      MongoCursor<Document> it = obj.iterator(); 
+	      while (it.hasNext()) { 
+	    	 arr = it.next();   
+	    	 a.add((Document) arr);
+	    	 System.out.println("Hi"+ a);
+	      }
+	      
+	      
+	      
+	      
+	}
+	
 	
 }

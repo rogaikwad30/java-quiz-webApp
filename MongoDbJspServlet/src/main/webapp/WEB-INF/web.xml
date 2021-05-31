@@ -99,6 +99,21 @@
       <servlet-name>Preview</servlet-name>
       <url-pattern>/Preview</url-pattern>
    </servlet-mapping>
+     <servlet>
+     
+     
+     
+     
+      <servlet-name>delete</servlet-name>
+      <servlet-class>com.jcg.mongodb.servlet.Delete</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>delete</servlet-name>
+      <url-pattern>/delete</url-pattern>
+   </servlet-mapping>
+     
+     
+     
      
      
 
@@ -111,6 +126,28 @@
       <url-pattern>/submit</url-pattern>
    </servlet-mapping>
 
+     
+
+ <servlet>
+      <servlet-name>CreatedQuizzes</servlet-name>
+      <servlet-class>com.jcg.mongodb.servlet.CreatedQuizzes</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>CreatedQuizzes</servlet-name>
+      <url-pattern>/CreatedQuizzes</url-pattern>
+   </servlet-mapping>
+   
+   
+
+ <servlet>
+      <servlet-name>Details</servlet-name>
+      <servlet-class>com.jcg.mongodb.servlet.Details</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Details</servlet-name>
+      <url-pattern>/details</url-pattern>
+   </servlet-mapping>
+   
    
   
     <welcome-file-list>

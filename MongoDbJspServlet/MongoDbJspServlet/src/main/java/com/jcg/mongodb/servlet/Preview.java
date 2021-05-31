@@ -20,14 +20,17 @@ public class Preview extends HttpServlet  {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		try {			
-			String TEST = (String) req.getParameter("code");
+			String TEST = (String) req.getParameter("code") ;
+			if(TEST == null) {
+				TEST = (String) req.getAttribute("test");
+			}
 			ObjectId id = new ObjectId(TEST);
 			System.out.println(TEST);
 			PrintWriter out = resp.getWriter();
 			HashMap<String, String[]> Data =  Util.searchQuiz(id);
 			System.out.println("length " + Data.get("Questions").length );
 			
-			renderPage(out ,Data.get("Questions") , Data.get("Answers") ,Data.get("OptionA") ,Data.get("OptionB") ,Data.get("OptionC") );
+			renderPage(out ,Data.get("Questions") , Data.get("Answers") ,Data.get("OptionA") ,Data.get("OptionB") ,Data.get("OptionC") , id.toString() , Data.get("ids") );
 		}
 		catch (Exception e) {
 			  String TEST = (String) req.getParameter("code");
@@ -35,12 +38,12 @@ public class Preview extends HttpServlet  {
 		      PrintWriter out = resp.getWriter();
 		      String [] arr = new String[0];
 		       
-		      renderPage(out ,arr, arr ,arr ,arr ,arr  );
+		      renderPage(out ,arr, arr ,arr ,arr ,arr , null , null  );
 		}
 		 
  	 }	 
 
-	public void renderPage( PrintWriter out  , String q[] , String a[] , String b[], String c[], String ca[] ) { 
+	public void renderPage( PrintWriter out  , String q[] , String a[] , String b[], String c[], String ca[] , String test , String [] ids) { 
 		out.println("<!DOCTYPE html>\r\n"
 				+ "<html lang=\"en\">\r\n"
 				+ "<head>\r\n"
@@ -105,7 +108,13 @@ public class Preview extends HttpServlet  {
 					+ "            <td>"+  a[i]  +"</td>\r\n"
 					+ "            <td>"+  b[i] +"</td>\r\n"
 					+ "            <td>"+  c[i] + "</td>\r\n"
-					+ "            <td> <button class=\"btn btn-sm btn-success\">Delete</button></td>\r\n"
+					+ "            <td> "+  
+					"<form action=\"delete\" method=\"POST\">\r\n"
+							+ "    <input type=\"text\" name=\"id\" hidden value=\""+ ids[i] +"\" required>\r\n"
+							+ "    <input type=\"text\" name=\"testID\" hidden value=\""+ test +"\" required>\r\n"
+							+ "    <input type=\"submit\" class=\"btn btn-success btn-sm p-1\" value=\"Delete\">\r\n"
+							+ "</form>"  +"</td>\r\n"
+							
 					+ "          </tr>\r\n"
 					+ "\r\n");
 			
